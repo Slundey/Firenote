@@ -1,0 +1,60 @@
+body {
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+textarea {
+    width: 100%;
+    height: 90vh;
+    resize: none;
+}
+
+#main {
+    margin: 0%;
+    padding: 0%;
+}
+
+#source, #preview {
+    display: inline-block;
+    padding: 0%;
+    margin: 0%;
+    width: 45%;
+    height: 90vh;
+    border: 1px solid black;
+    margin-left:70px;
+}
+
+#preview {
+    vertical-align: top;
+    overflow-y:auto;
+    overflow-x:auto;
+}
+
+#statusbar {
+    width: 100%;
+    margin-top: 1%;
+    border-top: 1px solid black;
+}
+
+.sidenav {
+    height: 90vh; 
+    width: 60px; 
+    position: fixed; 
+    top: 0; 
+    left: 0;
+    border: 1px solid black;
+    overflow-x: hidden;
+    padding-top: 20px;
+  }
+  
+  .sidenav a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 25px;
+    display: block;
+  }
+  
+  .sidenav a:hover {
+    color: #000000;
+  }
+  
