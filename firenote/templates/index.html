@@ -2,8 +2,8 @@
     <head>
         <title>Firenote</title>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js"></script>
-        <script src="app.js"></script>
-        <link rel="stylesheet" href="index.css">
+        <script src="{{ url_for('static', filename='app.js') }}"></script>
+        <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
     </head>
     <body>
         <div class="sidenav">
