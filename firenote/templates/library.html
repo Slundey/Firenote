@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Note library</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='library.css') }}">
+</head>
+<body>
+    <div id="main">
+        {% for note in notes %}
+            <div class="note">
+                <a class="fa fa-file-text-o" id="icon" href="/editor/{{ note.id }}"></a>
+                <a href="/editor/{{ note.id }}" class="filename">{{ note.name }}</a>
+            </div>
+        {% endfor %}
+        <div class="note">
+            <span class="fa-stack" style="vertical-align: top">
+                <i class="fa fa-light fa-file fa-stack-2x"></i>
+                <i class="fa fa-plus fa-stack-1x"></i>
+            </span>
+        </div>
+    </div>    
+</body>
+</html>

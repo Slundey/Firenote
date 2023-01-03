@@ -7,3 +7,10 @@ CREATE TABLE user (
   password TEXT NOT NULL
 );
 
+CREATE TABLE note (
+  uid int,
+  content text,
+  -- maybe include some metadata
+
+  FOREIGN KEY (uid) REFERENCES user(id) ON DELETE CASCADE
+)
