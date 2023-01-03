@@ -1,2 +1,9 @@
 # Ignore DB
+./instance/*
 .sqlite
+
+# Ignore local backups
+.rar
+
+# Ignore pycache
+./__pycache__/*
