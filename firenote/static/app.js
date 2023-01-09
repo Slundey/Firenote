@@ -139,5 +139,15 @@ function tohtml() {
 }
 
 function exportHtml() {
-    console.log("why is exporting hard")
+    $.ajax({
+        type: "POST",
+        url: "/save",
+        data: {
+            "": "" //unfinished! marin th were u doin here
+        },
+        dataType: "dataType",
+        success: function (response) {
+            
+        }
+    });
 }
