@@ -1,16 +1,45 @@
-DROP TABLE IF EXISTS user;
-DROP TABLE IF EXISTS post;
+DROP TABLE IF EXISTS config;
+DROP TABLE IF EXISTS users_notes;
+DROP TABLE IF EXISTS notes;
+DROP TABLE IF EXISTS genres;
+DROP TABLE IF EXISTS users;
 
-CREATE TABLE user (
+CREATE TABLE users (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   username TEXT UNIQUE NOT NULL,
   password TEXT NOT NULL
 );
 
-CREATE TABLE note (
-  uid int,
-  content text,
-  -- maybe include some metadata
+CREATE TABLE config (
+	user_id INTEGER PRIMARY KEY,
+	darktheme INTEGER DEFAULT 0,
+  bluelight INTEGER DEFAULT 0,
+  autosave INTEGER DEFAULT 1,
 
-  FOREIGN KEY (uid) REFERENCES user(id) ON DELETE CASCADE
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE genres (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+  genre_name TEXT
+);
+
+CREATE TABLE notes (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  note_name TEXT,
+  genre_id INTEGER,
+  content TEXT,
+  starred INTEGER DEFAULT 0,
+  
+  FOREIGN KEY (genre_id) REFERENCES genres(id) ON DELETE CASCADE
+);
+
+CREATE TABLE users_notes (
+	  user_id INTEGER,
+    note_id INTEGER,
+    PRIMARY KEY (user_id, note_id),
+    
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (note_id) REFERENCES notes(id) ON DELETE CASCADE
 )
+
