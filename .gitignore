@@ -1,9 +1,12 @@
-# Ignore DB
-./instance/*
-.sqlite
+# Ignore DB and DB residue from developing it lol
+protodb.sql
+./firenote/instance/
+*.sqlite
 
 # Ignore local backups
-.rar
+*.rar
 
-# Ignore pycache
-./__pycache__/*
+# Ignore auto-generated files
+.vscode/
+jsconfig.json
+*.pyc
