@@ -55,11 +55,13 @@ def create_app(test_config=None):
     # no file
     @app.route('/editor')
     def editor():
+        if (x := sentinel()) is not None: return x
         return render_template("editor.html", content=None)
 
     # file
     @app.route("/editor/<id>")
     def editor_specific(id):
+        if (x := sentinel()) is not None: return x
         return render_template("editor.html")
 
     @app.post("/save")
@@ -72,6 +74,7 @@ def create_app(test_config=None):
 
     @app.route("/library")
     def library():
+        if (x := sentinel()) is not None: return x
         from secrets import token_urlsafe
         notes = [{"name": token_urlsafe(
             8), "id": token_urlsafe(32)} for _ in range(100)]
