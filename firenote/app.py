@@ -7,23 +7,24 @@ from flask import (
 from werkzeug.security import check_password_hash, generate_password_hash
 from textwrap import wrap
 from db import get_db
+import json
+from secrets import token_urlsafe
+import hashlib, time
 
 def wrap_filenames(name: str, width: int = 12):
     return "\n".join(wrap(name, width))
 
 #implemented auth check, but not applied to all cases!
 def sentinel():
-    if not "uid" in session:
+    if not "username" in session:
         return redirect(url_for("auth.login"))
     else: return None
 
-def convertTuple(tup):
-        # initialize an empty string
-    str = ''
-    for item in tup:
-        str = str + item
-    return str
-
+def gen_note_id(username) -> str:
+    t = str(int(time.time()))
+    s = bytearray(str(username) + t + token_urlsafe(8), encoding="utf-8")
+    hobj = hashlib.sha256(s)
+    return hobj.hexdigest()
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
@@ -56,34 +57,51 @@ def create_app(test_config=None):
     @app.route('/editor')
     def editor():
         if (x := sentinel()) is not None: return x
-        return render_template("editor.html", content=None)
+        id = gen_note_id(session["username"])
+            # unlikely
+        while len(get_db().execute("SELECT * FROM notes WHERE id=?", (id,)).fetchall()) > 0:
+            id = gen_note_id(session["username"])
+        return render_template("editor.html", content=None, id=id)
 
     # file
     @app.route("/editor/<id>")
     def editor_specific(id):
         if (x := sentinel()) is not None: return x
-        return render_template("editor.html")
+        row = get_db().execute("SELECT * FROM notes WHERE id=? AND user=?", (id, session["username"])).fetchone()
+        return render_template("editor.html", id=id, content=row[2])
 
     @app.post("/save")
     def save_file():
-        con = get_db()
-        con.execute("INSERT INTO note")
-        return ""
+        content = request.form.get("content")
+        id = request.form.get("id")
+        if not content: return json.dumps({"status": "bruh"})
+        
+        # generate a new id because the file being saved is not present in db
+        if id is None:
+            id = gen_note_id(session["username"])
+            # unlikely
+            while len(get_db().execute("SELECT * FROM notes WHERE id=?", (id,)).fetchall()) > 0:
+                id = gen_note_id(session["username"])
+
+        get_db().execute("INSERT INTO notes(id, content, title, user) VALUES(?, ?, ?, ?)", (id, content, id, session["username"]))
+        get_db().commit()
+        return "OK"
 
 
 
     @app.route("/library")
     def library():
         if (x := sentinel()) is not None: return x
-        from secrets import token_urlsafe
-        notes = [{"name": token_urlsafe(
-            8), "id": token_urlsafe(32)} for _ in range(100)]
+
+        rows = get_db().execute("SELECT id, title FROM notes WHERE user=?", (session["username"],))
+        notes = [{"id": row[0], "name": row[1]} for row in rows]
         return render_template("library.html", notes=notes)
 
 
 
     @bp.route('/register', methods=('GET', "POST"))
     def register():
+        
         if request.method == 'POST':
             username = request.form['username']
             password = request.form['password']
@@ -130,7 +148,6 @@ def create_app(test_config=None):
 
             if error is None:
                 session.clear()
-                session['uid'] = user['id']
                 session['username'] = user['username']
                 return redirect(url_for('library'))
 
@@ -140,18 +157,14 @@ def create_app(test_config=None):
 
     @bp.before_app_request
     def load_logged_in_user():
-        user_id = session.get('uid')
-        #name = session.get('username')
+        username = session.get('username')
 
-        if user_id is None:
+        if username is None:
             g.user = None
         else:
             g.user = get_db().execute(
-                'SELECT * FROM users WHERE id = ?', (user_id,)
-            ).fetchone
-           #g.user = get_db().execute(
-            #    'SELECT id FROM users WHERE username = ?', (name,)
-            #).fetchone()[0]
+                'SELECT * FROM users WHERE username=?', (username,)
+            ).fetchone()
 
     @bp.route('/logout')
     def logout():

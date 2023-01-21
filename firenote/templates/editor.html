@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -10,7 +11,7 @@
 
 <body>
     <div class="sidenav">
-        <a href="#" onclick="exportHtml()">Export</a>
+        <a href="#" onclick="save_file('{{ id }}')">Save</a>
         <a href="#">2</a>
         <a href="#">3</a>
         <a href="#">4</a>
@@ -32,6 +33,10 @@
                 var end = this.selectionEnd;
                 this.value = this.value.substring(0, start) + "\t" + this.value.substring(end);
                 this.selectionStart = this.selectionEnd = start + 1;
+            }
+            if ((e.ctrlKey || e.metaKey) && e.key == "s") {
+                e.preventDefault();
+                save_file("{{ id }}");
             }
         });
     </script>

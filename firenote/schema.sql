@@ -1,45 +1,39 @@
-DROP TABLE IF EXISTS config;
-DROP TABLE IF EXISTS users_notes;
-DROP TABLE IF EXISTS notes;
-DROP TABLE IF EXISTS genres;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS notes;
+DROP TABLE IF EXISTS directory;
+DROP TABLE IF EXISTS config;
 
 CREATE TABLE users (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  username TEXT UNIQUE NOT NULL,
+  username TEXT PRIMARY KEY,
   password TEXT NOT NULL
 );
 
+CREATE TABLE notes (
+  id TEXT,
+  title TEXT,
+  content TEXT,
+  
+  user TEXT,
+  dir TEXT,
+
+  FOREIGN KEY (user) REFERENCES users(username),
+  FOREIGN KEY (dir) REFERENCES directory(id)
+);
+
+CREATE TABLE directory (
+  id TEXT PRIMARY KEY,
+  name TEXT,
+  parent TEXT DEFAULT NULL,
+
+  FOREIGN KEY (parent) REFERENCES directory(id)
+);
+
 CREATE TABLE config (
-	user_id INTEGER PRIMARY KEY,
+	user TEXT PRIMARY KEY,
+
 	darktheme INTEGER DEFAULT 0,
   bluelight INTEGER DEFAULT 0,
   autosave INTEGER DEFAULT 1,
 
-  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+  FOREIGN KEY (user) REFERENCES users(username) ON DELETE CASCADE
 );
-
-CREATE TABLE genres (
-	id INTEGER PRIMARY KEY AUTOINCREMENT,
-  genre_name TEXT
-);
-
-CREATE TABLE notes (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  note_name TEXT,
-  genre_id INTEGER,
-  content TEXT,
-  starred INTEGER DEFAULT 0,
-  
-  FOREIGN KEY (genre_id) REFERENCES genres(id) ON DELETE CASCADE
-);
-
-CREATE TABLE users_notes (
-	  user_id INTEGER,
-    note_id INTEGER,
-    PRIMARY KEY (user_id, note_id),
-    
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (note_id) REFERENCES notes(id) ON DELETE CASCADE
-)
-

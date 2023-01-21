@@ -129,7 +129,7 @@ function tohtml() {
     //console.log(html);
     document.getElementById("preview").innerHTML = html;
     fullhtml = fullhtml.concat(html, "\n    </body>\n</html>")
-    console.log(fullhtml);
+    //console.log(fullhtml);
 
     let lc = 0;
     let lines = document.getElementById("src").value.split("\n");
@@ -138,16 +138,19 @@ function tohtml() {
     document.getElementById("linecount").innerHTML = lc;
 }
 
-function exportHtml() {
+function save_file(id) {
     $.ajax({
         type: "POST",
         url: "/save",
         data: {
-            "": "" //unfinished! marin th were u doin hereeee
+            "id": id,
+            "content": $("#src").val()
         },
-        dataType: "dataType",
-        success: function (response) {
-            
+        dataType: "json",
+        complete: (xhr) => {
+            if (xhr.readyState == 4) {
+                console.log(xhr.responseText);
+            }
         }
     });
 }
