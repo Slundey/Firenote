@@ -2,6 +2,7 @@
 protodb.sql
 ./firenote/instance/
 *.sqlite
+sqlite3.exe
 
 # Ignore local backups
 *.rar
