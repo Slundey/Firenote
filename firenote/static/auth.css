@@ -1,18 +1,22 @@
 html {
     background-image: url("/static/images/bg.png");
-    font-family: sans-serif;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     padding: 17% 0;
+    height:100vh;
     overflow-x: hidden;
     overflow-y: hidden;
+    font-family: sans-serif;
+
 }
 
 body {
-    max-width: 960px;
+    max-width: 460px;
+    /* max-height: 320px; */
+    height: -60px;
     margin: 0 auto;
-    background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+    background-color: rgba(0,0,0, 0.4);
     color: white;
 }
 
@@ -71,7 +75,7 @@ header .action {
 }
 
 .content {
-    padding: 0 1rem 1rem;
+    padding: 0 1rem;
 }
 
 .content>header {

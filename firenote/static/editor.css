@@ -1,12 +1,19 @@
 body {
+    position: relative;
     height: 100%;
     overflow-x: hidden;
     overflow-y: hidden;
+    margin: 0%;
+    padding: 0%;
 }
+
 textarea {
     width: 100%;
-    height: 90vh;
+    height: 95vh;
     resize: none;
+    outline: none;
+    border:none;
+    border-right: 1px solid black;
 }
 
 #main {
@@ -14,47 +21,133 @@ textarea {
     padding: 0%;
 }
 
-#source, #preview {
+#source,
+#preview {
     display: inline-block;
+    box-sizing: border-box;
+    /* display: relative; */
     padding: 0%;
     margin: 0%;
-    width: 45%;
-    height: 90vh;
-    border: 1px solid black;
-    margin-left:70px;
+    width: 51.4vw;
+    height: 95.6vh;
+    padding-left: 56px;
 }
 
 #preview {
     vertical-align: top;
-    overflow-y:auto;
-    overflow-x:auto;
-}
+    overflow-y: auto;
+    overflow-x: auto;
+    max-width:48.3vw;
+    padding-left: 9px;}
+
 
 #statusbar {
-    width: 100%;
-    margin-top: 1%;
-    border-top: 1px solid black;
+    width: 100vw;
+    height:10vh;
+    margin-top: 9px;
+    margin-left: 62px;
+    /* border-top: 1px solid black; */
+    vertical-align: middle;
+}
+
+.breakline {
+    position: absolute;
+    top: 94.5vh;
+    width: 100vw;
+    height: 200px;
 }
 
 .sidenav {
-    height: 90vh; 
-    width: 60px; 
-    position: fixed; 
-    top: 0; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    background-color: orange;
+    height: 100vh;
+    width: 55px;
+    top: 0;
     left: 0;
     border: 1px solid black;
     overflow-x: hidden;
     padding-top: 20px;
-  }
-  
-  .sidenav a {
-    padding: 6px 8px 6px 16px;
+}
+
+.sidenav a {
+    padding-top:1rem;
     text-decoration: none;
     font-size: 25px;
     display: block;
-  }
-  
-  .sidenav a:hover {
     color: #000000;
+}
+
+.sidenav a:hover {
+    color: #ffeede;
+}
+
+.fileDropbtn {
+    cursor: pointer;
+}
+
+.fileDropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.file-dropdown-content {
+    display: none;
+    position: fixed;
+    background-color: #f1f1f1;
+    min-width: 100px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+
+.file-dropdown-content a {
+    font-family: sans-serif;
+    font-size: 12px;
+    position: relative;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.file-dropdown-content a:hover {
+    background-color: #ddd;
+    color: black
+}
+
+.show {
+    display: block;
+}
+
+  
+  .exportDropdown {
+    position: relative;
+    display: inline-block;
   }
   
+  .export-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 80px;
+    margin-left:90px;
+    top: -2px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  .export-dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .exportDropdown-content a:hover {background-color: #ddd;}
+  
+  .exportDropdown:hover .export-dropdown-content {display: block;}
+
+#statusbar > p {
+    font-family: monospace;
+}

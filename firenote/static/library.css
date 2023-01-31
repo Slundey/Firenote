@@ -1,21 +1,27 @@
+html {
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
 #main {
-    display:flex;
-    flex-wrap:wrap;
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 115px;
 }
 
 .note {
-    display:flex;
-    flex-direction:column;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    margin:12px;
+    margin: 12px;
+    max-width: 72px;
+    min-width: 96px;
 }
+
 
 #icon {
     flex: 2;
     font-size: 96px;
-    color: black;
-}
-#icon:hover, #icon:visited {
     color: black;
 }
 
@@ -25,8 +31,77 @@
     color: black;
     text-decoration: none;
     flex: 1;
+    word-break: break-all;
 }
 
-.filename:visited, .filename:hover {
+/* #dropdownButton {
+    text-decoration: none;
+} */
+
+.filename:visited,
+.filename:hover {
     color: black;
 }
+
+.sidenav {
+    background-color: orange;
+    height: 100%;
+    width: 55px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    border: 1px solid black;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+.sidenav a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 25px;
+    display: block;
+    color: #000000;
+}
+
+.sidenav a:hover {
+    color: #ffeede;
+}
+
+.controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 80px;
+    margin-left: 90px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    margin-top: 50px;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-family: monospace;
+    cursor: pointer;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.show {
+    display: block;
+}
+
+/* .note:hover .dropdown-content {
+    display: block;
+} */

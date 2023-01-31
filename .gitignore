@@ -12,3 +12,6 @@ makedb.py
 .vscode/
 jsconfig.json
 *.pyc
+
+#Ignore personal startup file
+*.bat

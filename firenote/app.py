@@ -10,6 +10,7 @@ from db import get_db
 import json
 from secrets import token_urlsafe
 import hashlib, time
+from datetime import timedelta
 
 def wrap_filenames(name: str, width: int = 12):
     return "\n".join(wrap(name, width))
@@ -32,6 +33,11 @@ def create_app(test_config=None):
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'firenote.sqlite')
     )
+
+    @app.before_request
+    def make_session_permanent():
+        session.permanent = True
+        app.permanent_session_lifetime = timedelta(minutes = 60)
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -68,26 +74,40 @@ def create_app(test_config=None):
     def editor_specific(id):
         if (x := sentinel()) is not None: return x
         row = get_db().execute("SELECT * FROM notes WHERE id=? AND user=?", (id, session["username"])).fetchone()
-        return render_template("editor.html", id=id, content=row[2])
+        return render_template("editor.html", id=id, content=row[2], title=row[1])
 
     @app.post("/save")
     def save_file():
         content = request.form.get("content")
         id = request.form.get("id")
-        if not content: return json.dumps({"status": "bruh"})
+        if content is None: return json.dumps({"status": "bruh"})
         
-        # generate a new id because the file being saved is not present in db
+        # generate a new id because the file being saved is not present in db / you silly
         if id is None:
             id = gen_note_id(session["username"])
             # unlikely
             while len(get_db().execute("SELECT * FROM notes WHERE id=?", (id,)).fetchall()) > 0:
                 id = gen_note_id(session["username"])
 
-        get_db().execute("INSERT INTO notes(id, content, title, user) VALUES(?, ?, ?, ?)", (id, content, id, session["username"]))
+        get_db().execute("INSERT OR REPLACE INTO notes(id, content, title, user) VALUES(?, ?, ?, ?)", (id, content, id, session["username"]))
         get_db().commit()
-        return "OK"
+        return id
 
-
+    @app.post("/delete/<id>")
+    def delete(id):
+        print(id)
+        get_db().execute("DELETE FROM notes WHERE id=? AND user=?", (id, session["username"]))
+        get_db().commit()
+        return "chiefin dat hoe"
+    
+    @app.post("/rename")
+    def rename():
+        id = request.form.get("id")
+        name = request.form.get("name")
+        if name is None or id is None: return "nah"
+        get_db().execute("UPDATE notes SET title=? WHERE id=? AND user=?", (name, id, session["username"]))
+        get_db().commit()
+        return "top g"
 
     @app.route("/library")
     def library():

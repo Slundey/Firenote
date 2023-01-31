@@ -1,22 +1,40 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Note library</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/regular.min.css" integrity="sha512-k2UAKyvfA7Xd/6FrOv5SG4Qr9h4p2oaeshXF99WO3zIpCsgTJ3YZELDK0gHdlJE5ls+Mbd5HL50b458z3meB/Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Firenote - Library</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+        integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/regular.min.css"
+        integrity="sha512-k2UAKyvfA7Xd/6FrOv5SG4Qr9h4p2oaeshXF99WO3zIpCsgTJ3YZELDK0gHdlJE5ls+Mbd5HL50b458z3meB/Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{{ url_for('static', filename='library.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script defer src="{{ url_for('static', filename='library.js') }}"></script>
 </head>
+
 <body>
+    <div class="sidenav">
+        <a href="#" class="fas fa-cog" onclick="alert('Not finished!')"></a>
+        <a href="/auth/logout" class="fa fa-sign-out"></a>
+    </div>
     <div id="main">
         {% for note in notes %}
-            <div class="note">
-                <a class="fa-regular fa-file-lines" id="icon" href="/editor/{{ note.id }}" target="_blank"></a> <!--editor/{{ note.id }}-->
-                <a href="/editor/{{ note.id }}" class="filename" target="_blank">{{ note.name }}</a>
+        <div class="note" id="{{ note.id }}">
+            <a class="fa-regular fa-file-lines" id="icon" href="/editor/{{ note.id }}" target="_self"></a>
+            <a href="/editor/{{ note.id }}" class="filename" target="_self">{{ note.name }}</a>
+            <div class="dropdown-content" id="rightdrop">
+                <a onclick="rename_note('{{ note.id }}')">Rename</a>
+                <a onclick="delete_note('{{ note.id }}')">Delete</a>
             </div>
-        {% endfor %}
-        <div class="note">
-            <a class="fa-regular fa-file-circle-plus" id="icon" href="/editor" target="_blank"></a>
         </div>
-    </div>    
+        {% endfor %}
+        <div class="note" id="new">
+            <a class="fa fa-plus-square" id="icon" href="/editor" target="_self"></a>
+        </div>
+    </div>
 </body>
+
 </html>

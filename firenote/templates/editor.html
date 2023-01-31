@@ -2,31 +2,57 @@
 <html>
 
 <head>
-    <title>Firenote</title>
+    <title>Firenote - Editor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+        integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/regular.min.css"
+        integrity="sha512-k2UAKyvfA7Xd/6FrOv5SG4Qr9h4p2oaeshXF99WO3zIpCsgTJ3YZELDK0gHdlJE5ls+Mbd5HL50b458z3meB/Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <script src="{{ url_for('static', filename='app.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='app.js') }}"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='editor.css') }}">
 </head>
 
 <body>
-    <div class="sidenav">
-        <a href="#" onclick="save_file('{{ id }}')">Save</a>
-        <a href="#">2</a>
-        <a href="#">3</a>
-        <a href="#">4</a>
-    </div>
     <div id="main">
         <div id="source">
             <textarea type="text" id="src" onkeyup="tohtml()">{% if content: %}{{ content }}{% endif %}</textarea>
         </div>
         <div id="preview"></div>
     </div>
+    <hr class="breakline">
     <div id="statusbar">
-        <span id="linecount">0</span> Lines
+        <p>{{ title }} <span id="linecount">1</span> Lines | <span id="charcount">0</span> Characters</p>
     </div>
+
+    <div class="sidenav">
+        <a href="/library" class="fa fa-arrow-left"></a>
+        <div class="fileDropdown">
+            <a href="#" class="fa-regular fa-file-lines" id="fileDropbtn" onclick="fileDropdown()"></a>
+            <div id="fileDrop" class="file-dropdown-content">
+                <a href="#" onclick="save_file('{{ id }}')">Save</a>
+                <div class="exportDropdown">
+                    <a href="#" class="exportDropbtn">Export As <i class="fa fa-caret-down"></i></a>
+                    <div class="export-dropdown-content">
+                        <a href="#">.md</a>
+                        <a href="#">.txt</a>
+                        <a href="#">.pdf</a>
+                        <a href="#">.html</a>
+                    </div>
+                </div>
+                <a href="#">Print</a>
+            </div>
+        </div>
+        <a href="#" class="fas fa-cog" onclick="alert('Not finished!')"></a>
+        <a href="/auth/logout" class="fa fa-sign-out"></a>
+    </div>
+
     <script>
         document.getElementById("src").addEventListener("keydown", function (e) {
+
             if (e.key == "Tab") {
                 e.preventDefault();
                 var start = this.selectionStart;
