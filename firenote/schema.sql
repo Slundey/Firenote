@@ -9,7 +9,7 @@ CREATE TABLE users (
 );
 
 CREATE TABLE notes (
-  id TEXT,
+  id TEXT PRIMARY KEY,
   title TEXT,
   content TEXT,
   
@@ -37,3 +37,5 @@ CREATE TABLE config (
 
   FOREIGN KEY (user) REFERENCES users(username) ON DELETE CASCADE
 );
+
+-- autuosave table?

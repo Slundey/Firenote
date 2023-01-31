@@ -1,8 +1,9 @@
-# Ignore DB and DB residue from developing it lol
+# Ignore DB and DB residue from developing it lol (makedb.py was marin's temporary solution to us not knowing how to fucking compile LMFAOOOOO)
 protodb.sql
 ./firenote/instance/
 *.sqlite
 sqlite3.exe
+makedb.py
 
 # Ignore local backups
 *.rar
