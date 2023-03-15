@@ -1,26 +1,36 @@
 <!doctype html>
-<title>{% block title %}{% endblock %} - Firenote</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="{{ url_for('static', filename='auth.css') }}">
-<div class="bg-image"></div>
-<nav>
-  <h1>Firenote</h1>
-  <ul>
-    {% if g.user %}
-    <li><span>{{ g.user['username'] }}</span>
-    <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
-      {% else %}
-    <li><a href="{{ url_for('auth.login') }}">Log In</a>
-    <li><a href="{{ url_for('auth.register') }}">Register</a>
-      {% endif %}
-  </ul>
-</nav>
-<section class="content">
-  <header>
-    {% block header %}{% endblock %}
-  </header>
-  {% for message in get_flashed_messages() %}
-  <div class="flash">{{ message }}</div>
-  {% endfor %}
-  {% block content %}{% endblock %}
-</section>
+<html>
+
+<head>
+  <title>{% block title %}{% endblock %} - Firenote</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='auth.css') }}">
+</head>
+
+<body>
+  <div id = "main">
+    <nav>
+      <h1>Firenote</h1>
+      <ul>
+        {% if g.user %}
+        <li><span>{{ g.user['username'] }}</span>
+        <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
+          {% else %}
+        <li><a href="{{ url_for('auth.login') }}">Log In</a>
+        <li><a href="{{ url_for('auth.register') }}">Register</a>
+          {% endif %}
+      </ul>
+    </nav>
+    <section class="content">
+      <header>
+        {% block header %}{% endblock %}
+      </header>
+      {% for message in get_flashed_messages() %}
+      <div class="flash">{{ message }}</div>
+      {% endfor %}
+      {% block content %}{% endblock %}
+    </section>
+  </div>
+  
+</body>
+</html>

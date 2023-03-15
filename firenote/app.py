@@ -15,7 +15,6 @@ from datetime import timedelta
 def wrap_filenames(name: str, width: int = 12):
     return "\n".join(wrap(name, width))
 
-#implemented auth check, but not applied to all cases!
 def sentinel():
     if not "username" in session:
         return redirect(url_for("auth.login"))
@@ -88,8 +87,7 @@ def create_app(test_config=None):
             # unlikely
             while len(get_db().execute("SELECT * FROM notes WHERE id=?", (id,)).fetchall()) > 0:
                 id = gen_note_id(session["username"])
-
-        get_db().execute("INSERT OR REPLACE INTO notes(id, content, title, user) VALUES(?, ?, ?, ?)", (id, content, id, session["username"]))
+        get_db().execute("INSERT OR REPLACE INTO notes(id, content, title, user, dir) VALUES(?, ?, ?, ?, ?)", (id, content, id, session["username"], "DEFAULT"))
         get_db().commit()
         return id
 

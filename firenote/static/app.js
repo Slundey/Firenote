@@ -134,7 +134,6 @@ function tohtml() {
 }
 
 
-//marin file saver <3
 function save_file(id) {
     let noteid = "";
     $.ajax({
@@ -191,4 +190,28 @@ window.onload = e => {
     tohtml();
 };
 src.oninput = counterfunc;
-// document.querySelector("html").addEventListener("contextmenu", e => { e.preventDefault() });
+
+function mdExport(id, format) {
+    save_file(id);
+    let noteid = "";
+    $.ajax({
+        type: "POST",
+        url: "/export",
+        data: {
+            "id": id,
+            "format": format
+        },
+        dataType: "json",
+        complete: (xhr) => {
+            if (xhr.readyState == 4) {
+                console.log(xhr.responseText);
+                noteid = xhr.responseText;
+                
+                if (window.location.href.endsWith("/editor")) {
+                    console.log(noteid);
+                    window.location.replace(`/editor/${noteid}`);
+                }
+            }
+        }
+    });
+}

@@ -13,5 +13,8 @@ makedb.py
 jsconfig.json
 *.pyc
 
-#Ignore personal startup file
+# Ignore personal startup file
 *.bat
+
+# Ignore documentation reference
+dpmaterial/
