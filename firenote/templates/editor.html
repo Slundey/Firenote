@@ -23,9 +23,8 @@
         </div>
         <div id="preview"></div>
     </div>
-    <hr class="breakline">
     <div id="statusbar">
-        <p>{{ title }} <span id="linecount">1</span> Lines | <span id="charcount">0</span> Characters</p>
+        <p>{{ title }} | <span id="linecount">1</span> Lines | <span id="charcount">0</span> Characters</p>
     </div>
 
     <div class="sidenav">
@@ -37,15 +36,16 @@
                 <div class="exportDropdown">
                     <a href="#" class="exportDropbtn">Export As <i class="fa fa-caret-down"></i></a>
                     <div class="export-dropdown-content">
-                        <a href="#">.md</a>
-                        <a href="#">.pdf</a>
-                        <a href="#">.html</a>
+                        <a href="/export?id={{ id }}&format=md" target="_blank">.md</a>
+                        <a href="/export?id={{ id }}&format=pdf" target="_blank">.pdf</a>
+                        <a href="/export?id={{ id }}&format=html" target="_blank">.html</a>
+                        <a href="/export?id={{ id }}&format=txt" target="_blank">.txt</a>
                     </div>
                 </div>
                 <a href="#">Print</a>
             </div>
         </div>
-        <a href="#" class="fas fa-cog" onclick="alert('Not finished!')"></a>
+        <a href="#" class="fas fa-cog" onclick="alert('i hate everything')"></a>
         <a href="/auth/logout" class="fa fa-sign-out"></a>
     </div>
 

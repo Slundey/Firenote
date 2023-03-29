@@ -123,43 +123,19 @@ function markdown(src) {
 
 function tohtml() {
     //html conversion stuff
-    let fullhtml = "<!DOCTYPE html>\n<html>\n   <head>\n    </head>\n   <body>\n";
+    fullhtml = "<!DOCTYPE html>\n<html>\n   <head>\n    </head>\n   <body>\n";
     text = document.getElementById("src").value;
     var converter = new showdown.Converter();
     html = converter.makeHtml(text);
     //console.log(html);
     document.getElementById("preview").innerHTML = html;
     fullhtml = fullhtml.concat(html, "\n    </body>\n</html>")
-    //console.log(fullhtml);
-}
-
-
-function save_file(id) {
-    let noteid = "";
-    $.ajax({
-        type: "POST",
-        url: "/save",
-        data: {
-            "id": id,
-            "content": $("#src").val()
-        },
-        dataType: "json",
-        complete: (xhr) => {
-            if (xhr.readyState == 4) {
-                console.log(xhr.responseText);
-                noteid = xhr.responseText;
-                
-                if (window.location.href.endsWith("/editor")) {
-                    console.log(noteid);
-                    window.location.replace(`/editor/${noteid}`);
-                }
-            }
-        }
-    });
+    // console.log(fullhtml);
 }
 
 function fileDropdown() {
     document.getElementById("fileDrop").classList.toggle("show");
+    // console.log(fullhtml)
 }
 
 window.onclick = function (event) {
@@ -191,15 +167,14 @@ window.onload = e => {
 };
 src.oninput = counterfunc;
 
-function mdExport(id, format) {
-    save_file(id);
+function save_file(id) {
     let noteid = "";
     $.ajax({
         type: "POST",
-        url: "/export",
+        url: "/save",
         data: {
             "id": id,
-            "format": format
+            "content": $("#src").val()
         },
         dataType: "json",
         complete: (xhr) => {

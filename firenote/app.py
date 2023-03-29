@@ -1,8 +1,10 @@
+from fileinput import filename
 import functools
+from io import BytesIO
 import os
 import db
 from flask import (
-    Flask, Blueprint, flash, g, redirect, render_template, request, session, url_for
+    Flask, Blueprint, current_app, flash, g, redirect, render_template, request, send_file, send_from_directory, session, url_for
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 from textwrap import wrap
@@ -11,6 +13,9 @@ import json
 from secrets import token_urlsafe
 import hashlib, time
 from datetime import timedelta
+from fpdf import FPDF
+from pathlib import Path
+
 
 def wrap_filenames(name: str, width: int = 12):
     return "\n".join(wrap(name, width))
@@ -27,8 +32,12 @@ def gen_note_id(username) -> str:
     return hobj.hexdigest()
 
 def create_app(test_config=None):
+    UPLOAD_FOLDER = '/uploads'
+    ALLOWED_EXTENSIONS = {'txt', 'pdf', 'md', 'html'}
+
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
+        UPLOAD_FOLDER = UPLOAD_FOLDER,
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'firenote.sqlite')
     )
@@ -55,6 +64,7 @@ def create_app(test_config=None):
 
     @app.route('/')
     def index():
+        print(app.config['UPLOAD_FOLDER'])
         if (x := sentinel()) is not None: return x
         return redirect(url_for('library'))
 
@@ -91,6 +101,42 @@ def create_app(test_config=None):
         get_db().commit()
         return id
 
+    import tempfile, markdown
+    from bs4 import BeautifulSoup as bs
+
+    @app.route('/export', methods = ['POST', 'GET'])
+    def export_file():
+        id = request.args.get('id')
+        format = request.args.get('format')
+        print(id)
+        db = get_db()
+        rows = db.execute(
+            "SELECT title, content FROM notes WHERE id=? AND user=?", (id, session['username'],)
+            ).fetchone()
+        print(rows)
+        title, content = rows[0], rows[1]
+        tmp = tempfile.TemporaryFile()
+
+        match format:
+            case "md":
+                tmp.write(content.encode())
+            case "pdf":
+                pdf = FPDF()
+                pdf.add_page()
+                pdf.write_html(markdown.markdown(content))
+                pdf.output(tmp)
+            case "html":
+                tmp.write(markdown.markdown(content).encode())
+            case "txt":
+                soup = bs(markdown.markdown(content))
+                tmp.write(soup.get_text().encode())
+            case _:
+                ...
+                # catch invalid format
+                
+        tmp.seek(0)
+        return send_file(tmp, as_attachment=True, download_name=title + "." + format)
+    
     @app.post("/delete/<id>")
     def delete(id):
         print(id)
