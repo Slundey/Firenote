@@ -54,6 +54,7 @@ body {
     border-top: black solid 2px;
     overflow-x:auto;
     overflow-y:hidden;
+    white-space: nowrap;
 }
 
 #statusbar > p {

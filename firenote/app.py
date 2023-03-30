@@ -1,10 +1,9 @@
 from fileinput import filename
 import functools
-from io import BytesIO
 import os
 import db
 from flask import (
-    Flask, Blueprint, current_app, flash, g, redirect, render_template, request, send_file, send_from_directory, session, url_for
+    Flask, Blueprint, current_app, flash, g, redirect, render_template, request, send_file, session, url_for
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 from textwrap import wrap
@@ -14,7 +13,8 @@ from secrets import token_urlsafe
 import hashlib, time
 from datetime import timedelta
 from fpdf import FPDF
-from pathlib import Path
+import tempfile, markdown
+from bs4 import BeautifulSoup as bs
 
 
 def wrap_filenames(name: str, width: int = 12):
@@ -32,12 +32,8 @@ def gen_note_id(username) -> str:
     return hobj.hexdigest()
 
 def create_app(test_config=None):
-    UPLOAD_FOLDER = '/uploads'
-    ALLOWED_EXTENSIONS = {'txt', 'pdf', 'md', 'html'}
-
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
-        UPLOAD_FOLDER = UPLOAD_FOLDER,
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'firenote.sqlite')
     )
@@ -64,7 +60,6 @@ def create_app(test_config=None):
 
     @app.route('/')
     def index():
-        print(app.config['UPLOAD_FOLDER'])
         if (x := sentinel()) is not None: return x
         return redirect(url_for('library'))
 
@@ -100,9 +95,6 @@ def create_app(test_config=None):
         get_db().execute("INSERT OR REPLACE INTO notes(id, content, title, user, dir) VALUES(?, ?, ?, ?, ?)", (id, content, id, session["username"], "DEFAULT"))
         get_db().commit()
         return id
-
-    import tempfile, markdown
-    from bs4 import BeautifulSoup as bs
 
     @app.route('/export', methods = ['POST', 'GET'])
     def export_file():
@@ -160,6 +152,10 @@ def create_app(test_config=None):
         rows = get_db().execute("SELECT id, title FROM notes WHERE user=?", (session["username"],))
         notes = [{"id": row[0], "name": row[1]} for row in rows]
         return render_template("library.html", notes=notes)
+    
+    @app.route("/settings")
+    def settings():
+        return render_template("settings.html")
 
 
 

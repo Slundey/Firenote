@@ -37,5 +37,3 @@ CREATE TABLE config (
 
   FOREIGN KEY (user) REFERENCES users(username) ON DELETE CASCADE
 );
-
--- autuosave table?

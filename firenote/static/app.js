@@ -125,17 +125,14 @@ function tohtml() {
     //html conversion stuff
     fullhtml = "<!DOCTYPE html>\n<html>\n   <head>\n    </head>\n   <body>\n";
     text = document.getElementById("src").value;
-    var converter = new showdown.Converter();
+    var converter = new showdown.Converter({noHeaderId: true});
     html = converter.makeHtml(text);
-    //console.log(html);
     document.getElementById("preview").innerHTML = html;
     fullhtml = fullhtml.concat(html, "\n    </body>\n</html>")
-    // console.log(fullhtml);
 }
 
 function fileDropdown() {
     document.getElementById("fileDrop").classList.toggle("show");
-    // console.log(fullhtml)
 }
 
 window.onclick = function (event) {
