@@ -1,0 +1,221 @@
+html {
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #1d1d1d;
+    color:white
+}
+
+select {
+    font-size: 14px;
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    width: 80%;
+    max-width: 300px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+textarea {
+    resize: none;
+    font-size: 14px;
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    width: 80%;
+    height: 80%;
+    max-width: 300px;
+}
+
+input {
+    max-width: 300px;
+    width: 80%;
+}
+
+#main {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 110px;
+}
+
+#icon {
+    flex: 2;
+    font-size: 96px;
+    color: whitesmoke;
+}
+
+#sortBtn {
+    position: fixed;
+    font-size: 35px;
+    max-width: 35;
+    margin-left: 74px;
+}
+
+#sortBtn:hover {
+    color: #cccccc5b;
+    cursor: pointer;
+}
+
+#sortDrop {
+    margin-left: 50px;
+}
+
+#optionsBtn {
+    cursor:pointer;
+}
+
+.note {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 12px;
+    max-width: 72px;
+    min-width: 96px;
+}
+
+.filename {
+    font-family: monospace;
+    font-size: 12px;
+    color: black;
+    text-decoration: none;
+    flex: 1;
+    word-break: break-all;
+    min-width: 96px;
+    min-height: 70px;
+    text-align: center;
+}
+
+.filename:visited,
+.filename:hover {
+    color: whitesmoke;
+}
+
+.sidenav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed !important;
+    position: absolute;
+    background-color: orange;
+    height: 100vh;
+    width: 55px;
+    top: 0;
+    left: 0;
+    border-right: 2px solid whitesmoke;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+.sidenav a {
+    padding-top: 1rem;
+    text-decoration: none;
+    font-size: 25px;
+    display: block;
+    color: #000000;
+}
+
+.sidenav a:hover {
+    color: #ffeede;
+}
+
+.controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 80px;
+    margin-left: 90px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    margin-top: 50px;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-family: monospace;
+    cursor: pointer;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.show {
+    display: inline-block;
+}
+
+.modal {
+    font-family: monospace;
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #444444;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    min-width: 20vw;
+    max-width: 300px;
+}
+
+.submitbtn {
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: #000000;
+    background-color: #ececec;
+    border-radius: 4px;
+}
+
+.submitbtn:hover {
+    background-color: #b4b4b4;
+    cursor: pointer;
+}
+
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}

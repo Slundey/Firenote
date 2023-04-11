@@ -10,13 +10,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script defer src="{{ url_for('static', filename='app.js') }}"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='editor.css') }}">
+    <link rel="stylesheet" href="/static/editor-{{ config[0]['theme'] }}.css">
 </head>
 
 <body>
     <div id="main">
         <div id="source">
-            <textarea type="text" id="src" onkeyup="tohtml()" data-fontsize="{{ config[0]['fontsize'] }}">{% if content: %}{{ content }}{% endif %}</textarea>
+            <textarea type="text" id="src" onkeyup="tohtml()" data-fontsize="'{{ config[0]['fontsize'] }}">{% if content: %}{{ content }}{% endif %}</textarea>
         </div>
         <div id="preview"></div>
     </div>

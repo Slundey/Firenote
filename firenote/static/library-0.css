@@ -3,6 +3,45 @@ html {
     overflow-y: auto;
 }
 
+select {
+    font-size: 14px;
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    width: 80%;
+    max-width: 300px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+textarea {
+    resize: none;
+    font-size: 14px;
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    width: 80%;
+    height: 80%;
+    max-width: 300px;
+}
+
+input {
+    max-width: 300px;
+    width: 80%;
+}
+
 #main {
     display: flex;
     flex-wrap: wrap;
@@ -146,45 +185,6 @@ html {
     border: 1px solid #888;
     min-width: 20vw;
     max-width: 300px;
-}
-
-select {
-    font-size: 14px;
-    padding: 5px;
-    border-radius: 3px;
-    border: 1px solid #ccc;
-    margin-bottom: 20px;
-    width: 80%;
-    max-width: 300px;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-label {
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-textarea {
-    resize: none;
-    font-size: 14px;
-    padding: 5px;
-    border-radius: 3px;
-    border: 1px solid #ccc;
-    width: 80%;
-    height: 80%;
-    max-width: 300px;
-}
-
-input {
-    max-width: 300px;
-    width: 80%;
 }
 
 .submitbtn {
