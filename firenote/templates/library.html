@@ -1,14 +1,11 @@
-    <!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <title>Firenote - Library</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
         integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/regular.min.css"
-        integrity="sha512-k2UAKyvfA7Xd/6FrOv5SG4Qr9h4p2oaeshXF99WO3zIpCsgTJ3YZELDK0gHdlJE5ls+Mbd5HL50b458z3meB/Q=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{{ url_for('static', filename='library.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
@@ -17,24 +14,111 @@
 
 <body>
     <div class="sidenav">
-        <a href="/settings" class="fas fa-cog"></a>
+        <a onclick="settings_menu('{{ config[0]['theme'] }}', '{{ config[0]['fontsize'] }}')" class="fas fa-cog"
+            id="optionsBtn"></a>
         <a href="/auth/logout" class="fa fa-sign-out"></a>
+    </div>
+
+    <div class="sortDropdown">
+        <i class="fa-solid fa-list" id="sortBtn"></i>
+        <div id="sortDrop" class="dropdown-content">
+            {% for genre in genres %}
+            <a onclick="sort('{{ genre.id }}')">{{ genre.name }}</a>
+            {% endfor %}
+        </div>
     </div>
     <div id="main">
         {% for note in notes %}
-        <div class="note" id="{{ note.id }}">
+        <div class="note" id="{{ note.id }}" data-name="{{ note.name }}" data-desc="{{ note.description }}"
+            data-genre="{{ note.genre_id }}">
             <a class="fa-regular fa-file-lines" id="icon" href="/editor/{{ note.id }}" target="_self"></a>
             <a href="/editor/{{ note.id }}" class="filename" target="_self">{{ note.name }}</a>
             <div class="dropdown-content" id="rightdrop">
-                <a onclick="rename_note('{{ note.id }}')">Rename</a>
+                <a onclick='edit_menu("{{ note.id }}")'>Properties</a>
                 <a onclick="delete_note('{{ note.id }}')">Delete</a>
             </div>
         </div>
         {% endfor %}
         <div class="note" id="new">
-            <a class="fa fa-plus-square" id="icon" href="/editor" target="_self"></a>
+            <a class="fa fa-plus-square" id="icon" href="#" target="_self"></a>
         </div>
     </div>
+    <div id="optionsModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Options</h2>
+            <form id="optionsForm">
+                <label for="themes">Themes:</label>
+                <select id="themes" name="themes">
+                    <option value="0">Light</option>
+                    <option value="1">Dark</option>
+                </select>
+                <br><br>
+
+                <label for="font-size">Editor Font Size:</label>
+                <select id="font-size" name="font-size">
+                    <option value="8">8</option>
+                    <option value="12">12</option>
+                    <option value="16">16</option>
+                    <option value="24">24</option>
+                    <option value="28">28</option>
+                    <option value="32">32</option>
+                </select>
+                <br><br>
+
+                <a onclick="apply_settings()" class="submitbtn" id="optionsApply">Apply</a>
+            </form>
+        </div>
+    </div>
+    <div id="noteModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Create Note</h2>
+            <form id="noteForm">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title">
+                <br><br>
+
+                <label for="description">Description:</label>
+                <textarea id="description" name="description"></textarea>
+                <br><br>
+
+                <label for="genres">Genre:</label>
+                <select id="genres" name="genres">
+                    {% for genre in genres %}
+                    <option value="{{ genre.id }}">{{ genre.name }}</option>
+                    {% endfor %}
+                </select>
+                <br><br>
+                <a onclick="create_note()" class="submitbtn" id="noteCreate">Create</a>
+            </form>
+        </div>
+    </div>
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Note Properties</h2>
+            <form id="editForm">
+                <label for="editTitle">Title:</label>
+                <input type="text" id="editTitle" name="editTitle">
+                <br><br>
+
+                <label for="editDescription">Description:</label>
+                <textarea id="editDescription" name="editDescription"></textarea>
+                <br><br>
+
+                <label for="editGenre">Genre:</label>
+                <select id="editGenre" name="editGenre">
+                    {% for genre in genres %}
+                    <option value="{{ genre.id }}">{{ genre.name }}</option>
+                    {% endfor %}
+                </select>
+                <br><br>
+                <a onclick="edit_note()" class="submitbtn" id="noteEdit">Apply</a>
+            </form>
+        </div>
+    </div>
+
 </body>
 
 </html>

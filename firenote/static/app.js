@@ -125,7 +125,7 @@ function tohtml() {
     //html conversion stuff
     fullhtml = "<!DOCTYPE html>\n<html>\n   <head>\n    </head>\n   <body>\n";
     text = document.getElementById("src").value;
-    var converter = new showdown.Converter({noHeaderId: true});
+    var converter = new showdown.Converter({ noHeaderId: true });
     html = converter.makeHtml(text);
     document.getElementById("preview").innerHTML = html;
     fullhtml = fullhtml.concat(html, "\n    </body>\n</html>")
@@ -135,7 +135,19 @@ function fileDropdown() {
     document.getElementById("fileDrop").classList.toggle("show");
 }
 
+var modal = document.getElementById("optionsModal");
+var btn = document.getElementById("optionsBtn");
+var span = document.getElementsByClassName("close")[0];
+span.onclick = function () {
+    modal.style.display = "none";
+}
 window.onclick = function (event) {
+    // Check if the clicked element is the modal
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+
+    // Check if the clicked element is not the fileDropbtn
     if (!event.target.matches('#fileDropbtn')) {
         var dropdowns = document.getElementsByClassName("file-dropdown-content");
         var i;
@@ -146,6 +158,21 @@ window.onclick = function (event) {
             }
         }
     }
+}
+
+function settings_menu(theme, fontsize) {
+    modal.style.display = "block";
+    var inputtheme = document.getElementById("themes")
+    var inputsize = document.getElementById("font-size")
+    inputtheme.value = theme
+    inputsize.value = fontsize
+  }
+
+function load_fontsize() {
+    console.log("HELLO?!?!")
+    var area = document.getElementById("src")
+    var size = area.getAttribute('data-fontsize')
+    area.style.fontSize = "" + size + "px"
 }
 
 const src = document.getElementById("src");
@@ -161,6 +188,7 @@ const counterfunc = e => {
 window.onload = e => {
     counterfunc();
     tohtml();
+    load_fontsize();
 };
 src.oninput = counterfunc;
 
@@ -178,7 +206,6 @@ function save_file(id) {
             if (xhr.readyState == 4) {
                 console.log(xhr.responseText);
                 noteid = xhr.responseText;
-                
                 if (window.location.href.endsWith("/editor")) {
                     console.log(noteid);
                     window.location.replace(`/editor/${noteid}`);
@@ -187,3 +214,23 @@ function save_file(id) {
         }
     });
 }
+
+function apply_settings() {
+    $.ajax({
+      type: "POST",
+      url: '/apply',
+      data: {
+        "theme": $("#themes").val(),
+        "fontsize": $("#font-size").val()
+      },
+      dataType: "json",
+      complete: (xhr) => {
+        if (xhr.readyState == 4) {
+          window.location.reload()
+        }
+      }
+    })
+  }
+
+
+

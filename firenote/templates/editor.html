@@ -1,14 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <title>Firenote - Editor</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
         integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/regular.min.css"
-        integrity="sha512-k2UAKyvfA7Xd/6FrOv5SG4Qr9h4p2oaeshXF99WO3zIpCsgTJ3YZELDK0gHdlJE5ls+Mbd5HL50b458z3meB/Q=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
@@ -19,12 +16,12 @@
 <body>
     <div id="main">
         <div id="source">
-            <textarea type="text" id="src" onkeyup="tohtml()">{% if content: %}{{ content }}{% endif %}</textarea>
+            <textarea type="text" id="src" onkeyup="tohtml()" data-fontsize="{{ config[0]['fontsize'] }}">{% if content: %}{{ content }}{% endif %}</textarea>
         </div>
         <div id="preview"></div>
     </div>
     <div id="statusbar">
-        <p>{{ title }} | <span id="linecount">1</span> Lines | <span id="charcount">0</span> Characters                         ㅤ</p>
+        <p>{{ title }} | <span id="linecount">1</span> Lines | <span id="charcount">0</span> Charactersㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ</p>
     </div>
 
     <div class="sidenav">
@@ -34,7 +31,7 @@
             <div id="fileDrop" class="file-dropdown-content">
                 <a href="#" onclick="save_file('{{ id }}')">Save</a>
                 <div class="exportDropdown">
-                    <a href="#" class="exportDropbtn">Export As <i class="fa fa-caret-down"></i></a>
+                    <a class="exportDropbtn">Export As <i class="fa fa-caret-down"></i></a>
                     <div class="export-dropdown-content">
                         <a href="/export?id={{ id }}&format=md" target="_blank">.md</a>
                         <a href="/export?id={{ id }}&format=pdf" target="_blank">.pdf</a>
@@ -42,11 +39,39 @@
                         <a href="/export?id={{ id }}&format=txt" target="_blank">.txt</a>
                     </div>
                 </div>
-                <a href="#">Print</a>
+                <a href="#" onclick="print()">Print</a>
             </div>
         </div>
-        <a href="/settings" class="fas fa-cog"></a>
+        <a onclick="settings_menu('{{ config[0]['theme'] }}', '{{ config[0]['fontsize'] }}')" class="fas fa-cog" id="optionsBtn"></a>
         <a href="/auth/logout" class="fa fa-sign-out"></a>
+    </div>
+
+    <div id="optionsModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Options</h2>
+            <form id="optionsForm">
+                <label for="themes">Themes:</label>
+                <select id="themes" name="themes">
+                    <option value="0">Light</option>
+                    <option value="1">Dark</option>
+                </select>
+                <br><br>
+
+                <label for="font-size">Editor Font Size:</label>
+                <select id="font-size" name="font-size">
+                    <option value="8">8</option>
+                    <option value="12">12</option>
+                    <option value="16">16</option>
+                    <option value="24">24</option>
+                    <option value="28">28</option>
+                    <option value="32">32</option>
+                </select>
+                <br><br>
+
+                <a onclick="apply_settings()" class="submitbtn" id="optionsApply">Apply</a>
+            </form>
+        </div>
     </div>
 
     <script>

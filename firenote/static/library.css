@@ -6,13 +6,33 @@ html {
 #main {
     display: flex;
     flex-wrap: wrap;
-    padding-left: 115px;
+    padding-left: 110px;
 }
 
 #icon {
     flex: 2;
     font-size: 96px;
     color: black;
+}
+
+#sortBtn {
+    position: fixed;
+    font-size: 35px;
+    max-width: 35;
+    margin-left: 74px;
+}
+
+#sortBtn:hover {
+    color: #3535355b;
+    cursor: pointer;
+}
+
+#sortDrop {
+    margin-left: 50px;
+}
+
+#optionsBtn {
+    cursor:pointer;
 }
 
 .note {
@@ -31,8 +51,8 @@ html {
     text-decoration: none;
     flex: 1;
     word-break: break-all;
-    min-width:96px;
-    min-height:70px;
+    min-width: 96px;
+    min-height: 70px;
     text-align: center;
 }
 
@@ -42,9 +62,9 @@ html {
 }
 
 .sidenav {
-    display:flex;
+    display: flex;
     flex-direction: column;
-    align-items:center;
+    align-items: center;
     position: fixed !important;
     position: absolute;
     background-color: orange;
@@ -58,8 +78,7 @@ html {
 }
 
 .sidenav a {
-    padding-top:1rem;
-    /* padding: 6px 8px 6px 16px; */
+    padding-top: 1rem;
     text-decoration: none;
     font-size: 25px;
     display: block;
@@ -102,5 +121,99 @@ html {
 }
 
 .show {
-    display: block;
+    display: inline-block;
+}
+
+.modal {
+    font-family: monospace;
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    min-width: 20vw;
+    max-width: 300px;
+}
+
+select {
+    font-size: 14px;
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    width: 80%;
+    max-width: 300px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+textarea {
+    resize: none;
+    font-size: 14px;
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    width: 80%;
+    height: 80%;
+    max-width: 300px;
+}
+
+input {
+    max-width: 300px;
+    width: 80%;
+}
+
+.submitbtn {
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: #000000;
+    background-color: #ececec;
+    border-radius: 4px;
+}
+
+.submitbtn:hover {
+    background-color: #b4b4b4;
+    cursor: pointer;
+}
+
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
 }

@@ -1,7 +1,8 @@
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS notes;
-DROP TABLE IF EXISTS directory;
+DROP TABLE IF EXISTS genres;
 DROP TABLE IF EXISTS config;
+DROP TABLE IF EXISTS notes_genres;
 
 CREATE TABLE users (
   username TEXT PRIMARY KEY,
@@ -11,29 +12,41 @@ CREATE TABLE users (
 CREATE TABLE notes (
   id TEXT PRIMARY KEY,
   title TEXT,
+  description TEXT,
   content TEXT,
-  
   user TEXT,
-  dir TEXT,
 
-  FOREIGN KEY (user) REFERENCES users(username),
-  FOREIGN KEY (dir) REFERENCES directory(id)
+  FOREIGN KEY (user) REFERENCES users(username)
 );
 
-CREATE TABLE directory (
-  id TEXT PRIMARY KEY,
-  name TEXT,
-  parent TEXT DEFAULT NULL,
+CREATE TABLE genres (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT
+);
 
-  FOREIGN KEY (parent) REFERENCES directory(id)
+CREATE TABLE notes_genres ( -- genres being: None, Home, Work, Writing, School, Shopping
+  note_id TEXT,
+  genre_id INTEGER,
+
+  PRIMARY KEY (note_id, genre_id),
+  FOREIGN KEY (note_id) REFERENCES notes(id),
+  FOREIGN KEY (genre_id) REFERENCES genres(id)
+
 );
 
 CREATE TABLE config (
 	user TEXT PRIMARY KEY,
-
 	darktheme INTEGER DEFAULT 0,
-  bluelight INTEGER DEFAULT 0,
-  autosave INTEGER DEFAULT 1,
+  fontsize INTEGER DEFAULT 16,
+  defaultgenre INTEGER DEFAULT 1,
 
-  FOREIGN KEY (user) REFERENCES users(username) ON DELETE CASCADE
+  FOREIGN KEY (user) REFERENCES users(username) ON DELETE CASCADE,
+  FOREIGN KEY (defaultgenre) REFERENCES genres(id) ON DELETE CASCADE
 );
+
+INSERT INTO genres (name) VALUES ('None');
+INSERT INTO genres (name) VALUES ('Home');
+INSERT INTO genres (name) VALUES ('Work');
+INSERT INTO genres (name) VALUES ('Writing');
+INSERT INTO genres (name) VALUES ('School');
+INSERT INTO genres (name) VALUES ('Shopping');
