@@ -38,10 +38,8 @@ CREATE TABLE config (
 	user TEXT PRIMARY KEY,
 	darktheme INTEGER DEFAULT 0,
   fontsize INTEGER DEFAULT 16,
-  defaultgenre INTEGER DEFAULT 1,
 
-  FOREIGN KEY (user) REFERENCES users(username) ON DELETE CASCADE,
-  FOREIGN KEY (defaultgenre) REFERENCES genres(id) ON DELETE CASCADE
+  FOREIGN KEY (user) REFERENCES users(username) ON DELETE CASCADE
 );
 
 INSERT INTO genres (name) VALUES ('None');

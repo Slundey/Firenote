@@ -2,12 +2,11 @@ import functools
 import os
 import db
 from flask import (
-    Flask, Blueprint, current_app, flash, g, jsonify, redirect, render_template, request, send_file, session, url_for
+    Flask, Blueprint, current_app, flash, g, redirect, render_template, request, send_file, session, url_for
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 from textwrap import wrap
 from db import get_db
-import json
 from secrets import token_urlsafe
 import hashlib
 import time
@@ -16,10 +15,6 @@ from fpdf import FPDF
 import tempfile
 import markdown
 from bs4 import BeautifulSoup as bs
-
-
-def wrap_filenames(name: str, width: int = 12):
-    return "\n".join(wrap(name, width))
 
 
 def sentinel():
@@ -79,6 +74,7 @@ def create_app(test_config=None):
         while len(get_db().execute("SELECT * FROM notes WHERE id=?", (id,)).fetchall()) > 0:
             id = gen_note_id(session["username"])
         config = [{"theme": session['theme'], "fontsize": session['fontsize']}]
+
         return render_template("editor.html", content=None, id=id, config=config)
 
     # file

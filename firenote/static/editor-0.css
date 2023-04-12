@@ -28,6 +28,10 @@ body {
     height: 95vh;
 }
 
+#doclink {
+    color:rgb(0, 129, 129);
+}
+
 #preview {
     padding-left: 12px;
     vertical-align: top;

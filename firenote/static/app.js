@@ -173,6 +173,7 @@ function load_fontsize() {
     var area = document.getElementById("src")
     var size = area.getAttribute('data-fontsize')
     area.style.fontSize = "" + size + "px"
+    console.log(area.style.fontSize)
 }
 
 const src = document.getElementById("src");

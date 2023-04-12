@@ -30,6 +30,10 @@ body {
     height: 95vh;
 }
 
+#doclink {
+    color:aqua;
+}
+
 #preview {
     padding-left: 12px;
     vertical-align: top;

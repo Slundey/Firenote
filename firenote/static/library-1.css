@@ -99,7 +99,7 @@ input {
 
 .filename:visited,
 .filename:hover {
-    color: whitesmoke;
+    color: rgb(224, 224, 224);
 }
 
 .sidenav {

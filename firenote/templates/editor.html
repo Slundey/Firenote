@@ -16,12 +16,12 @@
 <body>
     <div id="main">
         <div id="source">
-            <textarea type="text" id="src" onkeyup="tohtml()" data-fontsize="'{{ config[0]['fontsize'] }}">{% if content: %}{{ content }}{% endif %}</textarea>
+            <textarea type="text" id="src" onkeyup="tohtml()" data-fontsize="{{ config[0]['fontsize'] }}">{% if content: %}{{ content }}{% endif %}</textarea>
         </div>
         <div id="preview"></div>
     </div>
     <div id="statusbar">
-        <p>{{ title }} | <span id="linecount">1</span> Lines | <span id="charcount">0</span> Charactersㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ</p>
+        <p>{{ title }} | <span id="linecount">1</span> Lines | <span id="charcount">0</span> Characters | <a id="doclink" target="_blank" href="https://www.markdownguide.org/basic-syntax/">Docs</a>ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ</p>
     </div>
 
     <div class="sidenav">
