@@ -293,7 +293,7 @@ def create_app():
         return send_file(tmp, as_attachment=True, download_name=title + "." + format)
     
 
-    # applies new settings
+    # applies new settings entered by user
     @app.post("/apply")
     def apply_settings():
         theme = request.form.get('theme')

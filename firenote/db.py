@@ -14,7 +14,7 @@ def get_db():
 
     return g.db
 
-# sets up the database
+# sets up the database for the app
 def init_db():
     db = get_db()
     with current_app.open_resource('schema.sql') as f:
