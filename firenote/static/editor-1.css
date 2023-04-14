@@ -2,7 +2,7 @@ html {
     overflow-x: hidden;
     overflow-y: hidden;
     background-color: rgb(27, 27, 27);
-    color:white;
+    color: white;
 }
 
 body {
@@ -31,7 +31,7 @@ body {
 }
 
 #doclink {
-    color:aqua;
+    color: aqua;
 }
 
 #preview {
@@ -73,7 +73,7 @@ body {
 }
 
 #optionsBtn {
-    cursor:pointer;
+    cursor: pointer;
 }
 
 textarea {
@@ -82,7 +82,7 @@ textarea {
     border: none;
     border-right: 2px solid whitesmoke;
     background: #111111;
-    color:white;
+    color: white;
     width: 100%;
     height: 100%;
     font-size: 16px;
@@ -107,7 +107,6 @@ textarea {
 
 .sidenav a {
     padding-top: 1rem;
-    /* padding: 6px 8px 6px 16px; */
     text-decoration: none;
     font-size: 25px;
     display: block;
@@ -223,7 +222,6 @@ select {
     max-width: 300px;
 }
 
-/* Style the form */
 form {
     display: flex;
     flex-direction: column;
@@ -231,7 +229,6 @@ form {
     justify-content: center;
 }
 
-/* Style the labels and selects */
 label {
     font-size: 16px;
     font-weight: bold;
@@ -286,16 +283,19 @@ input {
 }
 
 @media print {
-    #source, #statusbar, .sidenav {
-        display:none;
+
+    #source,
+    #statusbar,
+    .sidenav {
+        display: none;
     }
+
     #preview {
-        /* position: fixed; */
         width: 100vw !important;
         height: auto !important;
         z-index: 999999999;
         background-color: white;
-        color:black;
+        color: black;
         page-break-after: always;
     }
 }

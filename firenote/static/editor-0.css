@@ -29,7 +29,7 @@ body {
 }
 
 #doclink {
-    color:rgb(0, 129, 129);
+    color: rgb(0, 129, 129);
 }
 
 #preview {
@@ -71,7 +71,7 @@ body {
 }
 
 #optionsBtn {
-    cursor:pointer;
+    cursor: pointer;
 }
 
 textarea {
@@ -103,7 +103,6 @@ textarea {
 
 .sidenav a {
     padding-top: 1rem;
-    /* padding: 6px 8px 6px 16px; */
     text-decoration: none;
     font-size: 25px;
     display: block;
@@ -220,7 +219,6 @@ select {
     max-width: 300px;
 }
 
-/* Style the form */
 form {
     display: flex;
     flex-direction: column;
@@ -228,7 +226,6 @@ form {
     justify-content: center;
 }
 
-/* Style the labels and selects */
 label {
     font-size: 16px;
     font-weight: bold;
@@ -283,11 +280,14 @@ input {
 }
 
 @media print {
-    #source, #statusbar, .sidenav {
-        display:none;
+
+    #source,
+    #statusbar,
+    .sidenav {
+        display: none;
     }
+
     #preview {
-        /* position: fixed; */
         width: 100vw !important;
         height: auto !important;
         z-index: 999999999;

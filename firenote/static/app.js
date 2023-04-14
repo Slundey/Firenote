@@ -121,8 +121,8 @@ function markdown(src) {
     return src.trim();
 };
 
+// uses showdown converter to convert to html
 function tohtml() {
-    //html conversion stuff
     fullhtml = "<!DOCTYPE html>\n<html>\n   <head>\n    </head>\n   <body>\n";
     text = document.getElementById("src").value;
     var converter = new showdown.Converter({ noHeaderId: true });
@@ -131,6 +131,7 @@ function tohtml() {
     fullhtml = fullhtml.concat(html, "\n    </body>\n</html>")
 }
 
+// dropdown and modal management below
 function fileDropdown() {
     document.getElementById("fileDrop").classList.toggle("show");
 }
@@ -142,12 +143,10 @@ span.onclick = function () {
     modal.style.display = "none";
 }
 window.onclick = function (event) {
-    // Check if the clicked element is the modal
     if (event.target == modal) {
         modal.style.display = "none";
     }
 
-    // Check if the clicked element is not the fileDropbtn
     if (!event.target.matches('#fileDropbtn')) {
         var dropdowns = document.getElementsByClassName("file-dropdown-content");
         var i;
@@ -166,18 +165,18 @@ function settings_menu(theme, fontsize) {
     var inputsize = document.getElementById("font-size")
     inputtheme.value = theme
     inputsize.value = fontsize
-  }
+}
 
+// loads selected fontsize from settings
 function load_fontsize() {
-    console.log("HELLO?!?!")
     var area = document.getElementById("src")
     var size = area.getAttribute('data-fontsize')
     area.style.fontSize = "" + size + "px"
-    console.log(area.style.fontSize)
 }
 
 const src = document.getElementById("src");
 
+// used for status bar values
 const counterfunc = e => {
     let lines = src.value.split("\n");
     let total = 0;
@@ -193,6 +192,7 @@ window.onload = e => {
 };
 src.oninput = counterfunc;
 
+// saves note to database
 function save_file(id) {
     let noteid = "";
     $.ajax({
@@ -205,10 +205,8 @@ function save_file(id) {
         dataType: "json",
         complete: (xhr) => {
             if (xhr.readyState == 4) {
-                console.log(xhr.responseText);
                 noteid = xhr.responseText;
                 if (window.location.href.endsWith("/editor")) {
-                    console.log(noteid);
                     window.location.replace(`/editor/${noteid}`);
                 }
             }
@@ -216,22 +214,23 @@ function save_file(id) {
     });
 }
 
+// tells backend to sort notes by sent genre
 function apply_settings() {
     $.ajax({
-      type: "POST",
-      url: '/apply',
-      data: {
-        "theme": $("#themes").val(),
-        "fontsize": $("#font-size").val()
-      },
-      dataType: "json",
-      complete: (xhr) => {
-        if (xhr.readyState == 4) {
-          window.location.reload()
+        type: "POST",
+        url: '/apply',
+        data: {
+            "theme": $("#themes").val(),
+            "fontsize": $("#font-size").val()
+        },
+        dataType: "json",
+        complete: (xhr) => {
+            if (xhr.readyState == 4) {
+                window.location.reload()
+            }
         }
-      }
     })
-  }
+}
 
 
 

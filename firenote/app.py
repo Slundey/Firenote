@@ -54,7 +54,7 @@ def create_app():
     # setup the base template for the login/register page
     bp = Blueprint('auth', __name__, url_prefix='/auth')
 
-    # start route, sentinel checks if user is logged, if not - to login, if yes - to their library
+    # start route
     @app.route('/')
     def index():
         if (x := sentinel()) is not None:
@@ -140,6 +140,7 @@ def create_app():
 
             return view(**kwargs)
 
+    # checks if session is still active, 
     @bp.before_app_request
     def load_logged_in_user():
         username = session.get('username')
@@ -176,10 +177,12 @@ def create_app():
         title = request.form.get('title')
         description = request.form.get('description')
         genre = request.form.get('genres')
+
         get_db().execute("INSERT OR REPLACE INTO notes(id, title, description, content, user) VALUES(?, ?, ?, ?, ?)",
                          (id, title, description, "", session['username']))
         get_db().execute("INSERT OR REPLACE INTO notes_genres (note_id, genre_id) VALUES (?, ?)", (id, genre))
         get_db().commit()
+
         return id
     
     # applies edits made by user to the note properties
@@ -220,6 +223,7 @@ def create_app():
     def editor():
         if (x := sentinel()) is not None:
             return x
+        
         id = gen_note_id(session["username"])
         # unlikely, checks if there are notes with already existing id's
         while len(get_db().execute("SELECT * FROM notes WHERE id=?", (id,)).fetchall()) > 0:
@@ -233,9 +237,11 @@ def create_app():
     def editor_specific(id):
         if (x := sentinel()) is not None:
             return x
+        
         row = get_db().execute("SELECT * FROM notes WHERE id=? AND user=?",
                                (id, session["username"])).fetchone()
         config = [{"theme": session['theme'], "fontsize": session['fontsize']}]
+
         return render_template("editor.html", id=id, content=row[3], title=row[1], config=config)
 
     # saves changes to the note
@@ -243,15 +249,18 @@ def create_app():
     def save_file():
         content = request.form.get("content")
         id = request.form.get("id")
+
         # generate a new id in the case the note does not already exist in the database
         if id is None:
             id = gen_note_id(session["username"])
             # unlikely, checks if there are notes with already existing id's
             while len(get_db().execute("SELECT * FROM notes WHERE id=?", (id,)).fetchall()) > 0:
                 id = gen_note_id(session["username"])
+
         get_db().execute("UPDATE notes SET content = ? WHERE id = ?",
                          (content, id))
         get_db().commit()
+
         return id
 
     # exports file locally on user's pc
@@ -259,8 +268,8 @@ def create_app():
     def export_file():
         id = request.args.get('id')
         format = request.args.get('format')
-        db = get_db()
-        rows = db.execute(
+
+        rows = get_db().execute(
             "SELECT title, content FROM notes WHERE id=? AND user=?", (
                 id, session['username'],)
         ).fetchone()
@@ -290,6 +299,7 @@ def create_app():
 
         # ends tmp file writing
         tmp.seek(0) 
+
         return send_file(tmp, as_attachment=True, download_name=title + "." + format)
     
 
@@ -298,15 +308,17 @@ def create_app():
     def apply_settings():
         theme = request.form.get('theme')
         fontsize = request.form.get('fontsize')
+
         session['theme'] = theme
         session['fontsize'] = fontsize
+
         get_db().execute("UPDATE config SET darktheme = ?, fontsize = ? WHERE user = ?",
                          (theme, fontsize, session['username']))
         get_db().commit()
+        
         return "settings applied!"
 
     # starts database and registers template for auth page
     db.init_app(app)
     app.register_blueprint(bp)
-
     return app

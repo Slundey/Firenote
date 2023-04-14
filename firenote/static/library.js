@@ -24,7 +24,6 @@ optspan.onclick = function () {
   optmodal.style.display = "none";
 }
 
-
 var modal = document.getElementById("noteModal");
 var btn = document.getElementById("new");
 var span = document.getElementsByClassName("close")[1];
@@ -37,15 +36,15 @@ span.onclick = function () {
 
 document.getElementById("sortBtn").addEventListener("click", sortDropdown);
 
+// manages dropdown of sort button
 function sortDropdown() {
   document.getElementById("sortDrop").classList.toggle("show");
-  console.log(document.getElementById("sortDrop").classList)
 }
 
-
+// note edit modal
 var editmodal = document.getElementById("editModal");
 var editspan = document.getElementsByClassName("close")[2];
-var curNoteId;
+var curNoteId; // serves to tell the app that this is the current note being looked at
 
 function edit_menu(id) {
   editmodal.style.display = "block"
@@ -65,8 +64,7 @@ editspan.onclick = function () {
   editmodal.style.display = "none"
 }
 
-
-
+// settings
 function settings_menu(theme, fontsize) {
   optmodal.style.display = "block";
   var inputtheme = document.getElementById("themes")
@@ -75,6 +73,7 @@ function settings_menu(theme, fontsize) {
   inputsize.value = fontsize
 }
 
+// manages modals and dropdowns closing upon clicking in various places
 window.onclick = e => {
   if (e.target == optmodal) {
     optmodal.style.display = "none";
@@ -94,19 +93,9 @@ window.onclick = e => {
   }
 };
 
-function delete_note(id) {
-  $.ajax({
-    type: "POST",
-    url: `/delete/${id}`,
-    dataType: "json",
-    complete: (xhr) => {
-      if (xhr.readyState == 4) {
-        window.location.reload();
-      }
-    }
-  });
-}
 
+// ajax requests
+// passes all data needed to make the note to backend
 function create_note() {
   let noteid = ""
   $.ajax({
@@ -127,6 +116,7 @@ function create_note() {
   })
 }
 
+// passes edits to the backend
 function edit_note() {
   $.ajax({
     type: "POST",
@@ -146,6 +136,21 @@ function edit_note() {
   })
 }
 
+// passes the id to delete to backend
+function delete_note(id) {
+  $.ajax({
+    type: "POST",
+    url: `/delete/${id}`,
+    dataType: "json",
+    complete: (xhr) => {
+      if (xhr.readyState == 4) {
+        window.location.reload();
+      }
+    }
+  });
+}
+
+// passes new settings to backend
 function apply_settings() {
   $.ajax({
     type: "POST",
@@ -163,6 +168,7 @@ function apply_settings() {
   })
 }
 
+// tells backend to sort notes by sent genre
 function sort(genre) {
   $.ajax({
     type: "POST",

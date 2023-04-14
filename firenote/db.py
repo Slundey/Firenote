@@ -16,14 +16,13 @@ def get_db():
 
 # sets up the database for the app
 def init_db():
-    db = get_db()
     with current_app.open_resource('schema.sql') as f:
-        db.executescript(f.read().decode('utf8'))
+        get_db().executescript(f.read().decode('utf8'))
 
 # when used in cmd, will perform database setup
 @click.command('init-db')
 def init_db_command():
-    """Clear the existing data and create new tables."""
+    """clear the existing data and create new tables."""
     init_db()
     click.echo('Initialized the database.')    
 
